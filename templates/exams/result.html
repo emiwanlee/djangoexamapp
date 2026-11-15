@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Result — {{ attempt.exam.title }}</h1>
+<div class="card">
+  <p>Score: <strong>{{ attempt.score }}</strong></p>
+</div>
+{% if weak_topics %}
+  <div class="card">
+    <h2>Weak topics</h2>
+    <ul>
+      {% for perf in weak_topics %}
+        <li>{{ perf.topic.title }} — {{ perf.accuracy }}%</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+<a href="{% url 'dashboard' %}">Back to dashboard</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ subject.name }} ({{ subject.code }})</h1>
+<p>{{ subject.description }}</p>
+
+{% for scheme in subject.schemes.all %}
+  <div class="card">
+    <h2>{{ scheme.title }}</h2>
+    <p class="muted">{{ scheme.class_level }} · {{ scheme.term }} {{ scheme.session }}</p>
+    {% for topic in scheme.topics.all %}
+      <h3>{{ topic.title }}</h3>
+      {% for note in topic.notes.all %}
+        {% if note.is_published %}
+          <div style="margin-left:1rem">
+            <h4>{{ note.title }}</h4>
+            <div>{{ note.content|linebreaks }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}

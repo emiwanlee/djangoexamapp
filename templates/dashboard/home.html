@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Exam AI{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="card">
+  <p>Subjects: <strong>{{ subject_count }}</strong> · Available exams: <strong>{{ available_exams }}</strong></p>
+  <p class="muted">Plan: <strong>{{ subscription.plan|upper }}</strong>
+    {% if subscription.plan == "free" %}
+      — AI questions used today: {{ subscription.ai_questions_used_today }} / {{ subscription.FREE_DAILY_LIMIT }}
+    {% endif %}
+  </p>
+</div>
+
+{% if weak_topics %}
+<div class="card">
+  <h2>Your weak topics</h2>
+  <ul>
+    {% for perf in weak_topics %}
+      <li>
+        <strong>{{ perf.topic.title }}</strong> — {{ perf.accuracy }}% accuracy
+        <a class="btn" href="{% url 'start_practice' perf.topic.id %}">Practice with AI</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>Recent attempts</h2>
+  {% if my_attempts %}
+    <ul>
+      {% for a in my_attempts %}
+        <li>{{ a.exam.title }} — {{ a.score }} marks — {{ a.started_at|date:"M d, H:i" }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">No attempts yet. <a href="{% url 'exam_list' %}">Take an exam</a> to start.</p>
+  {% endif %}
+</div>
+{% endblock %}

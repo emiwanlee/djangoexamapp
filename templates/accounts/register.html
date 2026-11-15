@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Register — Exam AI{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Create an account</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="msg error">{{ form.non_field_errors }}</div>{% endif %}
+    <label>Username</label>
+    {{ form.username }}
+    <label>Password</label>
+    {{ form.password1 }}
+    <label>Confirm password</label>
+    {{ form.password2 }}
+    {% if form.errors %}<div class="msg error">{{ form.errors }}</div>{% endif %}
+    <button type="submit" style="margin-top:1rem">Register</button>
+  </form>
+  <p class="muted">Already have an account? <a href="{% url 'login' %}">Log in</a>.</p>
+</div>
+{% endblock %}

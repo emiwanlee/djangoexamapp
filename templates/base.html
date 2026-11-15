@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Exam AI{% endblock %}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f7f7f8; color: #111; }
+    nav { background: #111; color: #fff; padding: 0.75rem 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    nav a { color: #fff; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    nav form { margin: 0; }
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+    .muted { color: #666; font-size: 0.9rem; }
+    button, .btn { background: #111; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; }
+    button:hover, .btn:hover { background: #333; }
+    .msg { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .msg.warning { background: #fff4e5; border: 1px solid #f5b95c; }
+    .msg.error { background: #fde8e8; border: 1px solid #f59b9b; }
+    .msg.success { background: #e7f8ee; border: 1px solid #7bc99a; }
+    input[type="text"], input[type="password"], input[type="email"] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px; width: 100%; max-width: 400px; }
+    label { display: block; margin-top: 0.75rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'dashboard' %}"><strong>Exam AI</strong></a>
+    <a href="{% url 'subject_list' %}">Subjects</a>
+    <a href="{% url 'exam_list' %}">Exams</a>
+    <span style="flex:1"></span>
+    {% if user.is_authenticated %}
+      <span class="muted" style="color:#aaa">{{ user.username }}</span>
+      {# <a href="{% url 'upgrade' %}">Upgrade</a> #}
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" style="background:transparent; border:1px solid #fff; padding:0.25rem 0.75rem;">Logout</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+  </nav>
+  <main>
+    {% if messages %}
+      {% for m in messages %}
+        <div class="msg {{ m.tags }}">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

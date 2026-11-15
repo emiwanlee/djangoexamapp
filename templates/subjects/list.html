@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Subjects</h1>
+{% if subjects %}
+  <ul>
+    {% for s in subjects %}
+      <li><a href="{% url 'subject_detail' s.id %}">{{ s.name }} ({{ s.code }})</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="card">
+    <p class="muted">No subjects yet. Add one in <a href="/admin/subjects/subject/add/">the admin</a>.</p>
+  </div>
+{% endif %}
+{% endblock %}
